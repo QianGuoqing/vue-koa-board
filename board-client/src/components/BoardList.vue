@@ -3,10 +3,10 @@
     <div class="toolbar">
       <div class="messages">100 messages</div>
       <div class="arrow-down"><Icon type="md-arrow-down"/></div>
-      <ul class="message-list">
-        <li class="message-item"></li>
-      </ul>
     </div>
+    <ul class="message-list">
+      <li class="message-item"></li>
+    </ul>
   </div>
 </template>
 
