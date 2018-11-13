@@ -25,7 +25,8 @@
 </template>
 
 <script>
-  import { sendMessageByPost } from '../apis/request.js'
+  import { mapMutations } from 'vuex'
+  import { sendMessageByPost, getMessagesByGet } from '../apis/request.js'
   import { SEND_MESSAGE_URL } from '../apis/urls.js'
   import { REQUEST_SUCCESS, REQUEST_FAIL_WITH_EMPTY, REQUEST_FAIL_WITH_DUPLUCATE } from '../apis/requestCode.js'
   export default {
@@ -37,6 +38,9 @@
       }
     },
     methods: {
+      ...mapMutations([
+        'setMessages'
+      ]),
       async sendMessage() {
         try {
           let result = await sendMessageByPost(SEND_MESSAGE_URL, {
@@ -48,6 +52,8 @@
           switch (result.code) {
             case REQUEST_SUCCESS:
               this.$Message.success('send message success');
+              const messages = await getMessagesByGet()
+              this.setMessages(messages)
               break
             case REQUEST_FAIL_WITH_EMPTY:
               this.$Message.error('name or message cannot be empty')

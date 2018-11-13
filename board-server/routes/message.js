@@ -3,12 +3,24 @@ const messageModel = require('../databases/models/message')
 
 router.prefix('/message')
 
+const SERVER_ERROR = 0
 const REQUEST_SUCCESS = 1
 const REQUEST_FAIL_WITH_EMPTY = 2
 const REQUEST_FAIL_WITH_DUPLUCATE = 3
 
 router.get('/', async ctx => {
-  ctx.body = 'This is message page'
+  try {
+    const results = await messageModel.find({})
+    ctx.body = {
+      code: REQUEST_SUCCESS,
+      messages: results
+    }
+  } catch (error) {
+    ctx.body = {
+      code: SERVER_ERROR,
+      message: 'Server Error'
+    }
+  }
 })
 
 router.post('/send', async ctx => {
